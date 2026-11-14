@@ -30,6 +30,6 @@ These are **owner-reported physical Switch test observations**, not a guarantee 
 3. Note Switch firmware, Atmosphère version, NXCR build, game version and any relevant capture patches, where available.
 4. Stop recording before changing settings. Avoid enabling both NXCR and SysDVR simultaneously.
 
-**Separate regression gate:** Remaining **Armed** without a playable video is not the same as crashing. To close the failure-handling test, verify that NXCR can be switched OFF afterward and a supported game still records normally, without corrupting earlier files. Consider a future timeout or clear **No capture stream available** status instead of waiting indefinitely in **Armed**.
+**Separate regression gate:** Remaining **Armed** without a playable video is not the same as crashing. Owner testing subsequently reported that NXCR could be switched OFF and a supported game could record normally again; broad graceful-failure behaviour remains to be tested. Consider a future timeout or clear **No capture stream available** status instead of waiting indefinitely in **Armed**.
 
-See [PUBLIC_RELEASE_CHECKLIST.md](PUBLIC_RELEASE_CHECKLIST.md) for the beta acceptance tests.
+See [TESTING.md](TESTING.md) for the beta acceptance tests.
