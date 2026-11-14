@@ -1,0 +1,57 @@
+name: Validate NXCR public source build
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/build.yml"
+      - ".gitmodules"
+      - "Makefile"
+      - "source/**"
+      - "overlay/**"
+      - "scripts/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: devkitpro/devkita64:20260219
+    steps:
+      - name: Checkout exact public source and pinned libtesla
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - name: Verify pinned dependency and compile recorder
+        shell: bash
+        run: |
+          set -euxo pipefail
+          test "$(git -C overlay/libtesla rev-parse HEAD)" = "f766e9b607a05e9756843cbd62b3bfb98be1646c"
+          test -s overlay/libtesla/include/tesla.hpp
+          test -s LICENSE
+          test -s LICENSES/libnx-LICENSE.md
+          test -s LICENSES/libtesla-GPL-2.0.txt
+          make clean
+          make -j"$(nproc)"
+          test -s exefs.nsp
+      - name: Compile Tesla overlay
+        shell: bash
+        run: |
+          set -euxo pipefail
+          make -C overlay clean
+          make -C overlay -j"$(nproc)"
+          test -s overlay/NXCR.ovl
+      - name: Verify SD layout without publishing binaries
+        shell: bash
+        run: |
+          set -euxo pipefail
+          make package
+          unzip -t NXCR.zip
+          unzip -l NXCR.zip | grep -F "atmosphere/contents/00FF0000A53BB667/exefs.nsp"
+          unzip -l NXCR.zip | grep -F "switch/.overlays/NXCR.ovl"
+          unzip -l NXCR.zip | grep -F "switch/NXCR/config.example.ini"
+          sha256sum exefs.nsp overlay/NXCR.ovl NXCR.zip
+          echo "Public source compiles and packages successfully. No release/artifact published."
