@@ -1,6 +1,6 @@
 # NXCR third-party acknowledgements — draft for v0.4.1 Beta 1
 
-**PRE-RELEASE DRAFT — review before public binary distribution.** This file is an attribution map and does not replace the full licences/notices or corresponding source required by applicable licences. See [LICENSING_REVIEW.md](LICENSING_REVIEW.md).
+**PRE-RELEASE DRAFT — review before public binary distribution.** This file is an attribution map and does not replace the full licences/notices or corresponding source required by applicable licences. See [SOURCE_PROVENANCE.md](SOURCE_PROVENANCE.md).
 
 ## SysDVR — exelix11 and contributors
 
@@ -30,10 +30,10 @@
 
 ## Before publishing
 
-- [ ] Inventory all code from the original `project.b64` source archive and subsequent patches, including additional third-party files.
+- [ ] Complete the original prototype file-level contributor/licence audit and verify any additional third-party code.
 - [ ] Confirm exact upstream copyright notices and GPL version permissions before choosing the final NXCR licence label. Do not infer GPL-2.0-or-later permission for upstream code from the prototype's `LICENSE-NOTE.txt` alone.
 - [x] Add full upstream licence texts for the **identified** dependencies (SysDVR GPL v2, pinned libtesla GPL v2, libnx ISC and stb_truetype MIT). Additional authors/third-party files from the original prototype remain to be audited; completeness is **not** certified.
-- [x] Build a candidate corresponding-source ZIP from the **post-patch compiled source tree**, including pinned libtesla source, copyright notices, source manifests and build instructions, and independently rebuild it in CI. **Public distribution** of that exact source alongside a final binary is still pending.
-- [x] Document changed source layers, the pinned libtesla commit and the devkitA64 image, and publish build steps in [BUILDING.md](BUILDING.md). Exact libnx package revision and file-level provenance review remain outstanding.
+- [x] Publish the readable post-patch source in this repository, pinned libtesla as a submodule, corresponding notices and build instructions. The matching final binary and fully bundled corresponding-source ZIP are still pending prerelease publication.
+- [x] Document changed source layers, pinned libtesla commit and devkitA64 image, and publish [build instructions](BUILDING.md). Exact libnx package revision and file-level provenance review remain outstanding.
 
 NXCR branding does not imply ownership of upstream components. No affiliation or endorsement by the original projects is claimed.
