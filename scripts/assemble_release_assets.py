@@ -89,7 +89,36 @@ def main() -> None:
         assert (HERE / rel).is_file(), f"Missing release document {rel}"
 
     OUT.mkdir(parents=True, exist_ok=True)
-    shutil.copyfile(STAGING, INSTALL)
+    # Preserve exact tested binaries while replacing candidate-only wording with
+    # accurate public prerelease instructions and the latest audited notices.
+    with ZipFile(STAGING) as oldzip, ZipFile(INSTALL, "w", ZIP_DEFLATED, compresslevel=9) as fresh:
+        for item in oldzip.infolist():
+            if item.is_dir() or item.filename == "README-FIRST.txt":
+                continue
+            if item.filename in DOCS or item.filename.startswith("LICENSES/"):
+                continue
+            fresh.writestr(item.filename, oldzip.read(item))
+        for rel in DOCS:
+            fresh.write(HERE / rel, rel)
+        for p in sorted((HERE / "LICENSES").rglob("*")):
+            if p.is_file():
+                fresh.write(p, p.relative_to(HERE).as_posix())
+        fresh.writestr("README-FIRST.txt",
+            "NXCR v0.4.1 Beta 1 — EXPERIMENTAL PRERELEASE\n"
+            "Back up recordings, config and any older recorder sysmodule before installing.\n"
+            "Copy the atmosphere/ and switch/ folders to the microSD root, then reboot Atmosphere.\n"
+            "Do not run another grc:d-based recorder simultaneously.\n"
+            "Game compatibility is limited; review RELEASE_NOTES.md and TESTING.md.\n"
+            "Complete corresponding GPL source and checksums are attached to the same GitHub Release.\n")
+    with ZipFile(INSTALL) as verified:
+        assert verified.testzip() is None, "Invalid final installer ZIP"
+        for path, expected in (
+            ("atmosphere/contents/00FF0000A53BB667/exefs.nsp", EXPECTED_SYS),
+            ("switch/.overlays/NXCR.ovl", EXPECTED_OVL),
+        ):
+            assert hashlib.sha256(verified.read(path)).hexdigest() == expected, f"Compiled binary changed: {path}"
+        names = verified.namelist()
+        assert len(names) == len(set(names)), "Duplicate ZIP entries"
     entries: dict[str, Path] = {}
     add(entries, CODE)
     # Current licensing and documentary review supersedes the original
