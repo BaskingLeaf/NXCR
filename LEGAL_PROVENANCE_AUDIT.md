@@ -6,7 +6,7 @@
 
 ## Evidence inspected
 
-1. The **complete private build-baseline archive** reconstructed from `payload/project.part.00`–`04`, SHA-256 `2e28b36dbab4ce17afcc6ecf77e0991725eb965ab2d3eb6476894b422fd19427`. It contains **18 entries**. All 13 prototype C/C++ headers and implementation files lacked individual copyright/SPDX headers; the archive included `LICENSE-NOTE.txt`.
+1. The **complete private build-baseline archive** reconstructed from `payload/project.part.00`–`04`, SHA-256 `2e28b36dbab4ce17afcc6ecf77e0991725eb965ab2d3eb6476894b422fd19427`. It contains **18 entries**. All 11 prototype C/C++ source/header files lacked individual copyright/SPDX headers; the archive included `LICENSE-NOTE.txt`.
 2. A separate legacy `project.b64` Git blob **contains an ellipsization placeholder and cannot decode as a complete ZIP**. It must not be used as release provenance. The complete `payload/` archive is the usable early baseline.
 3. NXCR v0.4.1 source files and build instructions recovered from the exact private candidate's assembled source ZIP, then imported unchanged into a clean public repository.
 4. Current [exelix11/SysDVR](https://github.com/exelix11/SysDVR) `sysmodule/source/grcd.c`, `sysmodule/source/capture.c`, the repository's [GPL v2 text](https://github.com/exelix11/SysDVR/blob/master/LICENSE), and the relevant upstream code logic.
