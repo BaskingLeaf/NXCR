@@ -1,4 +1,4 @@
-# NXCR v0.4.1 — Public release candidate notes
+# NXCR v0.4.1 Beta 1 — Experimental prerelease
 
 NXCR records compatible Nintendo Switch gameplay video and game audio directly to microSD without a PC or capture card.
 
@@ -16,7 +16,7 @@ Extract the SD-root ZIP to the root of your Switch microSD card and restart Atmo
 
 ## Known limitations
 
-- **HOME transitions:** Occasional brief black frames and a possible extra gameplay cut under repeated HOME transitions are reported, not fully resolved (issue #27).
+- **HOME transitions:** Occasional brief black frames and a possible extra gameplay cut under repeated HOME transitions are reported, not fully resolved.
 - **Game compatibility:** Some titles that disallow native Capture-button clips can still record (e.g., Descenders), while FAST RMX, Rock of Ages 2/3 and Snake Pass may remain **Armed** with no playable video on the tested setup. See GAME_COMPATIBILITY.md.
 - **Storage:** Low-space recording refusal was observed (about 550 MB free with a 1 GB minimum), but a dedicated warning and recovery after restoring free space are not confirmed.
 
@@ -26,4 +26,6 @@ Extract the SD-root ZIP to the root of your Switch microSD card and restart Atmo
 - Do not run NXCR simultaneously with another `grc:d` client.
 - Recording can fail on incompatible games, low/slow SD storage, or certain system transitions.
 
-**Status:** Maintainer-reported physical Switch core regression testing has passed **17/17 checks** for the NXCR v0.4.1 candidate. This is an **experimental beta**, not a stable compatibility guarantee. Public distribution is still gated by source provenance, full licence compliance and matching source/binary publication.
+**Test evidence:** The maintainer reported **17/17 core regression checks passed** on an earlier candidate; the actual Beta 1 sysmodule and overlay were subsequently tested and produced a playable MKV with picture and game audio. The remaining behaviours were not all retested on the final binary. This is an **experimental prerelease**, not a stable compatibility guarantee.
+
+**Licence and source:** NXCR contains SysDVR-derived GPL-covered capture code and uses libtesla, libnx and stb_truetype. The matching readable source archive, audited notices, and SHA-256 checksums accompany the installer. Individual authorship of parts of the initial MKV/recorder prototype has not been independently established; see [LEGAL_PROVENANCE_AUDIT.md](LEGAL_PROVENANCE_AUDIT.md).
