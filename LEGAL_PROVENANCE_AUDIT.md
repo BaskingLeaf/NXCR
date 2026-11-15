@@ -59,3 +59,22 @@ The audited link maps contain object members of `libnx.a`, Newlib's `libg.a`, `l
 4. **Formal sign-off:** A qualified legal reviewer/copyright holder would be required to guarantee rights for every original-prototype contribution. The available evidence supports **a credible GPL v2 compliance approach, not unconditional legal certification**.
 
 No binary release should be described as legally verified solely on the basis of this technical audit.
+
+## Conservative complete-source bundle for the pinned candidate
+
+In addition to the readable NXCR source and pinned libtesla, the **complete-source** beta candidate archive now includes (under `toolchain-source/`):
+
+- **libnx v4.12.0** upstream source tarball, SHA-256 `1665209994d67b4b236d80fa200499853473a7e2bb502d5045d00fc0170f90ef`.
+- **Newlib 4.6.0.20260123** original source archive, SHA-256 `6ff27e3bf022666f43f7802255be680eeff722ac181b1725d21e2e8318604ee3`.
+- **devkitPro newlib r4 patch** for devkitA64 r29.2, SHA-256 `6d5aba4356553c727765c98e7553d3784f31d361c856e220ef27cc26353fb88f`.
+- A machine-readable SHA-256 manifest for these source components.
+
+GCC 15.2.0 toolchain code is not reproduced wholesale; `libstdc++` and other covered GCC runtime objects are used under the GCC Runtime Library Exception 3.1, whose original text and underlying GPL v3 text are included. This is the standard runtime linking exception and does **not** change the project's GPL v2 licensing.
+
+### Latest audited (unpublished) beta package pair
+
+- Install ZIP: `NXCR-v0.4.1-beta.1-audited-install.zip`, SHA-256 `1f3003453a1ade8ed6653ce1a4b581220da3da0195c9be515e96fb9289513420`.
+- Complete source ZIP: `NXCR-v0.4.1-beta.1-complete-source.zip`, SHA-256 `8fdb80158f038b9dfc03728ba3ed5f5e590b76cb0ed1aa533124a48ce29afe4a`.
+- The sysmodule (`exefs.nsp`, SHA-256 `1e80280a1088aca52ca5280c4ebae8170d6065fc122686c45ad50b3635680f5f`) and Tesla overlay (`NXCR.ovl`, SHA-256 `62db335aafb8e4a47beebd915263f01d019c7d245133dae701d42267a4edf73d`) are **byte-identical to the user's successfully played private Beta 1 test build**. All original source-code paths are unchanged. Only licence, provenance and build documentation was added to the install/source archives.
+
+These steps address the **identified linked runtime and available source-code** disclosure questions conservatively. The unresolved **human authorship of the original prototype's unattributed code**, and therefore absolute rights assurance, remains outside what an automated repository audit can prove.
