@@ -22,3 +22,7 @@ The original development line included local MKV muxing, segmentation, runtime c
 Before publishing a compiled public beta, verify: final exact-source/binary matching, all applicable notices, linked toolchain runtime dependencies, the compatibility and safety disclosures, and any unresolved original-prototype contributor permissions. This page is not legal certification.
 
 See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md), [LICENSE](LICENSE), and [BUILDING.md](BUILDING.md).
+
+## Detailed provenance and link audit
+
+The complete original build-baseline archive was recovered from the private project's `payload/project.part.*` inputs and its 18 files inventoried. Its SHA-256 is `2e28b36dbab4ce17afcc6ecf77e0991725eb965ab2d3eb6476894b422fd19427`. The separate legacy `project.b64` contains an ellipsization marker and must **not** be treated as an independently complete source archive. For file-level SysDVR adaptation evidence, pinned toolchain versions, static link-map findings, and the limits of authorship verification, see [LEGAL_PROVENANCE_AUDIT.md](LEGAL_PROVENANCE_AUDIT.md).
