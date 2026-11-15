@@ -4,7 +4,7 @@
 
 NXCR is an experimental Nintendo Switch homebrew background recorder for **Atmosphère**, with a **Tesla overlay** for controls and status. Compatible games can be recorded as MKV files with game audio, generally up to 720p / 30 fps as provided by the Switch's internal capture service.
 
-> **Status — public source available:** NXCR v0.4.1 Beta 1 is being prepared. The assembled source is now available in this repository, but **no public installation release has been published yet**. Final binary matching and licensing checks remain. Don't install GitHub's automatically generated “Source code (zip)” as if it were an SD-card installation package.
+> **Experimental Beta 1:** Get the installation archive and matching corresponding source from [GitHub Releases](../../releases). Gameplay support is game-dependent, and this is not a stable release. The automatic GitHub “Source code (zip)” is **not** the SD-card installation package. See [licensing and provenance limitations](LEGAL_PROVENANCE_AUDIT.md).
 
 ## Features
 
