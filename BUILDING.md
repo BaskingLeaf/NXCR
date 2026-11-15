@@ -40,3 +40,7 @@ For the public prerelease, the final distribution ZIP must also contain the appl
 The source was assembled from the v0.4.1 development line for a successful private GitHub Actions candidate build on 14 November 2026. The executable and overlay were independently rebuilt from its source export in that CI environment.
 
 A successful rebuild **does not** establish byte-for-byte binary equivalence across environments or prove licence clearance. See [SOURCE_PROVENANCE.md](SOURCE_PROVENANCE.md), the included licence texts and [TESTING.md](TESTING.md). The final public beta binary is not yet published.
+
+## Audited toolchain versions and runtime notices
+
+The pinned successful build image included **libnx 4.12.0-1, devkitA64 r29.2-1, devkita64-gcc 15.2.0-7, devkita64-newlib 4.6.0.20260123-4 and switch-tools 1.13.1-1**. The linked sysmodule/overlay maps contain `libnx.a`, `libstdc++.a`, Newlib `libg.a` and `libm.a`. Relevant upstream runtime licence texts are in [LICENSES/](LICENSES/). See the [provenance audit](LEGAL_PROVENANCE_AUDIT.md) for exact upstream sources and licensing scope. A source archive and a compiler toolchain are separate requirements; the full licence documents are not substitutes for the source needed to rebuild the recorder.
