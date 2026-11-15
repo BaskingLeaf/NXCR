@@ -40,7 +40,7 @@ Early physical Switch testing reported **17/17 original core regression checks**
 
 NXCR's `grc:d` capture implementation has substantial lineage with [SysDVR](https://github.com/exelix11/SysDVR) by exelix11 and contributors. The Tesla overlay uses [libtesla](https://github.com/WerWolv/libtesla); the recorder uses [libnx](https://github.com/switchbrew/libnx). These original authors retain their rights.
 
-See [LICENSE](LICENSE) and [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). NXCR is not affiliated with or endorsed by Nintendo or the upstream authors.
+See [LICENSE](LICENSE), [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md), and the detailed [licence/provenance audit](LEGAL_PROVENANCE_AUDIT.md). NXCR is not affiliated with or endorsed by Nintendo or the upstream authors.
 
 ## Source and issues
 
