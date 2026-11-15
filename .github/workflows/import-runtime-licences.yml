@@ -1,0 +1,41 @@
+name: Import pinned toolchain runtime licence notices
+on:
+  push:
+    paths:
+      - ".github/workflows/import-runtime-licences.yml"
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch exact upstream notice texts with integrity checks
+        shell: bash
+        run: |
+          set -euxo pipefail
+          mkdir -p LICENSES
+          curl -fL --retry 3 -o /tmp/nxcr-newlib.tar.gz https://sourceware.org/pub/newlib/newlib-4.6.0.20260123.tar.gz
+          echo '6ff27e3bf022666f43f7802255be680eeff722ac181b1725d21e2e8318604ee3  /tmp/nxcr-newlib.tar.gz' | sha256sum --check
+          tar -xOzf /tmp/nxcr-newlib.tar.gz newlib-4.6.0.20260123/COPYING.NEWLIB > LICENSES/newlib-4.6.0.20260123-COPYING.NEWLIB
+          echo 'f3afe48e4bc6ed8466a42e9dacb6be1d8f9cbf5aac15cb8e474a5ccde8b40ef6  LICENSES/newlib-4.6.0.20260123-COPYING.NEWLIB' | sha256sum --check
+          curl -fL --retry 3 -o LICENSES/gcc-15.2.0-COPYING.RUNTIME https://raw.githubusercontent.com/gcc-mirror/gcc/releases/gcc-15.2.0/COPYING.RUNTIME
+          curl -fL --retry 3 -o LICENSES/gcc-15.2.0-COPYING3 https://raw.githubusercontent.com/gcc-mirror/gcc/releases/gcc-15.2.0/COPYING3
+          head -2 LICENSES/gcc-15.2.0-COPYING.RUNTIME | grep -F 'GCC RUNTIME LIBRARY EXCEPTION'
+          head -2 LICENSES/gcc-15.2.0-COPYING3 | grep -F 'GNU GENERAL PUBLIC LICENSE'
+          test "$(wc -c < LICENSES/gcc-15.2.0-COPYING3)" -gt 25000
+          test "$(wc -c < LICENSES/newlib-4.6.0.20260123-COPYING.NEWLIB)" -gt 60000
+      - name: Commit full notices to public source repo
+        shell: bash
+        run: |
+          set -euxo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add LICENSES/
+          if git diff --cached --quiet; then
+            echo "Notice files already present"
+          else
+            git commit -m "Legal: add pinned Newlib COPYING and GCC GPL3 runtime exception licence texts"
+            git push origin HEAD:main
+          fi
