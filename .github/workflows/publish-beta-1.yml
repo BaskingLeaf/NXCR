@@ -44,7 +44,7 @@ jobs:
           python3 -m zipfile -t release-output/NXCR-v0.4.1-beta.1-source.zip
       - name: Publish exactly one GitHub prerelease with verified assets
         env:
-          GH_TOKEN: \${{ github.token }}
+          GH_TOKEN: ${{ github.token }}
         shell: bash
         run: |
           set -euxo pipefail
