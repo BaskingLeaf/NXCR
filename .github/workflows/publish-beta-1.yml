@@ -1,0 +1,64 @@
+name: Publish verified NXCR v0.4.1 Beta 1 prerelease
+
+on:
+  push:
+    branches: [release/v0.4.1-beta.1-staging]
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    if: github.repository == 'BaskingLeaf/NXCR'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout release staging and audited licence documents
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Checkout exact tested source and pinned libtesla
+        uses: actions/checkout@v4
+        with:
+          ref: 39dd369a7af6684dcb511cccfbdf91dabb79c30c
+          path: sourcebase
+          submodules: recursive
+          persist-credentials: false
+      - name: Obtain checksum-verified linked SDK source packages
+        shell: bash
+        run: |
+          set -euxo pipefail
+          mkdir -p toolchain-source
+          curl -fL --retry 3 -o toolchain-source/libnx-v4.12.0.tar.gz https://github.com/switchbrew/libnx/archive/refs/tags/v4.12.0.tar.gz
+          echo "1665209994d67b4b236d80fa200499853473a7e2bb502d5045d00fc0170f90ef  toolchain-source/libnx-v4.12.0.tar.gz" | sha256sum --check
+          curl -fL --retry 3 -o toolchain-source/newlib-4.6.0.20260123.tar.gz https://sourceware.org/pub/newlib/newlib-4.6.0.20260123.tar.gz
+          echo "6ff27e3bf022666f43f7802255be680eeff722ac181b1725d21e2e8318604ee3  toolchain-source/newlib-4.6.0.20260123.tar.gz" | sha256sum --check
+          curl -fL --retry 3 -o toolchain-source/newlib-4.6.0.20260123-4.patch https://raw.githubusercontent.com/devkitPro/buildscripts/refs/tags/devkitA64_r29.2/patches/newlib-4.6.0.20260123-4.patch
+          echo "6d5aba4356553c727765c98e7553d3784f31d361c856e220ef27cc26353fb88f  toolchain-source/newlib-4.6.0.20260123-4.patch" | sha256sum --check
+      - name: Repackage identical tested binaries with full corresponding source
+        shell: bash
+        run: |
+          set -euxo pipefail
+          python3 scripts/assemble_release_assets.py
+          (cd release-output && sha256sum --check SHA256SUMS.txt)
+          python3 -m zipfile -t release-output/NXCR-v0.4.1-beta.1-install.zip
+          python3 -m zipfile -t release-output/NXCR-v0.4.1-beta.1-source.zip
+      - name: Publish exactly one GitHub prerelease with verified assets
+        env:
+          GH_TOKEN: \${{ github.token }}
+        shell: bash
+        run: |
+          set -euxo pipefail
+          if gh release view v0.4.1-beta.1 --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "Release already exists; refusing overwrite"
+            exit 1
+          fi
+          gh release create v0.4.1-beta.1 \
+            release-output/NXCR-v0.4.1-beta.1-install.zip \
+            release-output/NXCR-v0.4.1-beta.1-source.zip \
+            release-output/SHA256SUMS.txt \
+            --repo "$GITHUB_REPOSITORY" \
+            --target main \
+            --title "NXCR v0.4.1 Beta 1" \
+            --notes-file RELEASE_NOTES.md \
+            --prerelease
+          gh release view v0.4.1-beta.1 --repo "$GITHUB_REPOSITORY" --json url,isPrerelease,assets
