@@ -44,7 +44,7 @@ def sha(data: bytes) -> str:
 
 
 def git(*args: str, cwd: Path = ROOT) -> str:
-    return subprocess.check_output(["git", *args], cwd=cwd, text=True).strip()
+    return subprocess.check_output(["git", "-c", f"safe.directory={cwd.resolve()}", *args], cwd=cwd, text=True).strip()
 
 
 def check_path(p: str) -> None:
